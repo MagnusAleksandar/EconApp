@@ -21,18 +21,19 @@ public class Casa {
  
     public File gastos, ahorros;
  
-    public void pedirIntegrantes(){
-        int in,c = 0, a, prc;
+    public void pedirIntegrantes(int ban){
+        int in, a, prc;
         String nom;
         boolean b=false;
-        double slr, cnt;
+        double slr, cnt=0;
         in=v.solicitarEntero("Ingrese cantidad de integrantes: ");
         in=personas.size();
         do{
             for (Persona persona : personas) {
                 nom=v.solicitarString("Nombre:");
                 do{
-                    a=v.solicitarEntero("¿Es aportante?(1: si/0: no)");
+                    if(ban==0)a=1;
+                    else a=v.solicitarEntero("¿Es aportante?(1: si/0: no)");
                 }while(a<0||a>1);
                 if(a==1){
                     persona.setContribuye(false);
@@ -46,6 +47,7 @@ public class Casa {
                     cnt=slr-slr*prc;
                     cont.add(new Contribuyentes(b,nom,cnt));
                 }
+                ToAporte+=cnt;
             }
         }while(in<=20&&in>1);
     }
@@ -92,25 +94,15 @@ public class Casa {
         }
         v.mostrarRes(m);
     }
-    
-    public double sumarG(){
-        for(Gasto g: gast){
-            ToGastos+=g.getCosto();
+
+    public void crearArchivo(int c){
+        try{
+            if(c==1) gastos=new File("../gastos.txt");
+                else ahorros=new File("../ahorros.txt");
+        }catch(Exception e){
+  
+          e.printStackTrace();
         }
-        return ToGastos;
-    }
-    
-    public void mostrar(){
-        mostrarLInt();
-        mostrarLCont();
-        mostrarLGast();
-    }
-    
-    public double sumarA(){
-        for(Contribuyentes c: cont){
-            ToAporte+=c.getContribucion();
-        }
-        return ToAporte;
     }
     
     public void escribirArchivo(double valor, File arch){
@@ -122,64 +114,61 @@ public class Casa {
             e.printStackTrace();
         }
     }
-    
+
     public String leerArchivo(File f){
-        
+ String linea=null;
         try{
             FileReader fr=new FileReader(f);
             BufferedReader br=new BufferedReader(fr);
-             String linea=null;
+            
              while((linea=br.readLine())!=null){
                  System.out.println (linea + "\n");
-                 return linea;
+                 
            }
           fr.close();
         }catch(Exception e){
            e.printStackTrace();
+           return linea;
         }
+        return linea;
     }
-    
+
     public void compGastos() throws IOException{
         //compGastos(PedirGastos());
         String b=leerArchivo(gastos);
         if(b==null){
             escribirArchivo(0,gastos);
         }else{
-           escribirArchivo(gt,gastos);
-           
+           escribirArchivo(ToGastos,gastos);
+
            double GastosPas=Double.parseDouble(b);
            double aux=GastosPas;
-           aux=+gt;
+           aux=+ToGastos;
            v.mostrarRes("Los gastos de los meses pasados fueron de un total acumulado de "
-                            +GastosPas+"pesos, y los de este mes fueron de "+gt+
+                            +GastosPas+"pesos, y los de este mes fueron de "+ToGastos+
                             " pesos. Todo esto"+ "nos da un total de "+aux+" pesos.");
-           //gastos.delete();
-           BufferedWriter bw = new BufferedWriter(new FileWriter(gastos));
-           String l="";
-           bw.write(l);
-           bw.close();
+           gastos.delete();
+           crearArchivo(1);
            escribirArchivo(aux,gastos);
         }
         }
-    
-    
-    public void calcularAhorro(double gastoMensual,double ingresoMensual){
-        double restante=ingresoMensual-gastoMensual;
+
+
+    public void calcularAhorro(){
+        double restante=ToAporte-ToGastos;
         if(restante<0){
-            v.mostrarRes("""
-                         Sus deudas/gastos son mayores a la cantidad de ingresos que tiene.
-                          \nPor favor intente ingresar nuevamente la cantidad de diero que aporta cada uno.""");
-            pideAportantes();//Cristo no la ha creado
+            v.mostrarRes("Sus deudas/gastos son mayores a la cantidad de ingresos que tiene.");
+           
         }else{
-            
+
             do{
                 v.mostrarRes("El restante de sus ingresos es de "+restante+" pesos");
             ahorro=v.solicitarDouble("¿Cuanto de esto que le sobro desea depositar a su ahorro?");
             validarAhorro(restante,ahorro);
             }while(!validarAhorro(restante,ahorro));
-            
+
         }
-                
+
     }
     boolean validarAhorro(double restante, double ahorro){
         boolean ban=true;
@@ -189,9 +178,9 @@ public class Casa {
         }
         return ban;
     }
-    
+
     public void compAhorros() throws IOException{
-        //compGastos(PedirGastos());
+        //compGastos(PedirGastos());    
         String b=leerArchivo(ahorros);
         if(b==null){
             escribirArchivo(0,ahorros);
@@ -203,35 +192,39 @@ public class Casa {
            v.mostrarRes("Los ahorros de los meses pasados fueron de un total acumulado de "
                             +ahorrosPas+"pesos, y los de este mes fueron de "+ahorro+
                             " pesos. Todo esto"+ "nos da un total de "+aux+" pesos.");
-           //gastos.delete();
-           BufferedWriter bw = new BufferedWriter(new FileWriter(ahorros));
-           String l="";
-           bw.write(l);
-           bw.close();
+           ahorros.delete();
+           crearArchivo(2);
            escribirArchivo(aux,ahorros);
         }
         }
-    
+
     public void menu() throws IOException{
-        //pedirIntegrantes();
-        //PedirGastos();
-        int op;
-        do{
-            op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
-                + "\n1. Mostrar informacion."
-                + "\n2. Agregar integrantes."
-                + "\n3. Agregar gasto."
-                + "\n4. Comparar los gastos actuales con los pasados."
-                + "\n5. Comparar los ahorros actuaes con los pasados."
-                + "\n6. Salir."); 
-            switch(op){
-            case 1:mostrar();break;
-            case 2:pedirIntegrantes();break;
-            case 3:PedirGastos();break;
-            case 4:compGastos();break;
-            case 5:compAhorros();break;
-            case 6:v.mostrarRes("Hasta luego.");System.exit(0);break;
-            default:;break;
+        if(personas==null||leerArchivo(gastos)==null){pedirIntegrantes(1); PedirGastos();}
+        else{
+            int op;
+            do{
+                op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
+                    + "\n1. Mostrar onformacion."
+                    + "\n2. Agregar aportantantes."
+                    + "\n3. Comparar los gastos actuales con los pasados."
+                    + "\n4. Comparar los ahorros actuaes con los pasados"
+                    + "\n5. Ahorrar dinero."
+                    + "\n6. Agregar gasto"
+                    + "\n7. Salir"); 
+                switch(op){
+                case 1:
+                    mostrarLInt();
+                    mostrarLCont();
+                    mostrarLGast();break;
+                case 2://0 para ingresar aportante
+                    pedirIntegrantes(0) ;break;
+                case 3:compGastos();break;
+                case 4:compAhorros();break;
+                case 5:calcularAhorro();break;
+                case 6:PedirGastos();break;
+                case 7:;break;
+                default:;break;
+            }
+            }while(op!=7);}
         }
-        }while(op!=6);}
     }
