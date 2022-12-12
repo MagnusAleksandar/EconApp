@@ -4,7 +4,9 @@ public class Gasto {
     private double costo;
     private String descrip;
 
-    public Gasto() {
+    public Gasto(double costo, String descrip) {
+        this.costo=costo;
+        this.descrip=descrip;
     }
     
     public double getCosto() {
