@@ -93,7 +93,12 @@ public class Casa {
         v.mostrarRes(m);
     }
     
-    
+    public double sumarG(){
+        for(Gasto g: gast){
+            ToGastos+=g.getCosto();
+        }
+        return ToGastos;
+    }
     
     public void escribirArchivo(double valor, File arch){
         try{
