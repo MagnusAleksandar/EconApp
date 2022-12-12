@@ -67,7 +67,7 @@ public class Casa {
 
     
 
-    void mostrarLInt(){
+    public void mostrarLInt(){
         String m="";
         for(Persona per:personas){
             if(!per.getContribuye())
@@ -76,7 +76,7 @@ public class Casa {
         }
         v.mostrarRes(m);
     }
-    void mostrarLCont(){
+    public void mostrarLCont(){
         String m="";
         for(Contribuyentes con:cont){
             if(con.getContribuye())
@@ -85,13 +85,15 @@ public class Casa {
         v.mostrarRes(m);
     }
  
-    void mostrarLGast(){
+    public void mostrarLGast(){
         String m="";
         for(Gasto gst:gast){
             m+=gst.getDescrip()+" $"+gst.getCosto();
         }
         v.mostrarRes(m);
     }
+    
+    
     
     public void escribirArchivo(double valor, File arch){
         try{
