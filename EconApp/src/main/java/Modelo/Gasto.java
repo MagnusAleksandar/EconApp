@@ -1,22 +1,23 @@
 package Modelo;
 
 public class Gasto {
-    private static double costo;
-    private static String descrip;
+    private double costo;
+    private String descrip;
 
-    public static double getCosto() {
+    public Gasto(double costo, String descrip) {
+        this.costo=costo;
+        this.descrip=descrip;
+    }
+    
+    public double getCosto() {
         return costo;
     }
 
-    public static void setCosto(double costo) {
-        Gasto.costo = costo;
+    public void setCosto(double costo) {
+        this.costo = costo;
     }
 
-    public static String getDescrip() {
+    public String getDescrip() {
         return descrip;
-    }
-
-    public static void setDescrip(String descrip) {
-        Gasto.descrip = descrip;
     }
 }
