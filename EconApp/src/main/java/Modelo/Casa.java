@@ -67,7 +67,7 @@ public class Casa {
 
     
 
-    void mostrarLInt(){
+    public void mostrarLInt(){
         String m="";
         for(Persona per:personas){
             if(!per.getContribuye())
@@ -76,7 +76,7 @@ public class Casa {
         }
         v.mostrarRes(m);
     }
-    void mostrarLCont(){
+    public void mostrarLCont(){
         String m="";
         for(Contribuyentes con:cont){
             if(con.getContribuye())
@@ -85,12 +85,32 @@ public class Casa {
         v.mostrarRes(m);
     }
  
-    void mostrarLGast(){
+    public void mostrarLGast(){
         String m="";
         for(Gasto gst:gast){
             m+=gst.getDescrip()+" $"+gst.getCosto();
         }
         v.mostrarRes(m);
+    }
+    
+    public double sumarG(){
+        for(Gasto g: gast){
+            ToGastos+=g.getCosto();
+        }
+        return ToGastos;
+    }
+    
+    public void mostrar(){
+        mostrarLInt();
+        mostrarLCont();
+        mostrarLGast();
+    }
+    
+    public double sumarA(){
+        for(Contribuyentes c: cont){
+            ToAporte+=c.getContribucion();
+        }
+        return ToAporte;
     }
     
     public void escribirArchivo(double valor, File arch){
@@ -199,18 +219,18 @@ public class Casa {
         do{
             op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
                 + "\n1. Mostrar onformacion."
-                + "\n2. Agregar aportantantes."
+                + "\n2. Agregar Integrantes."
                 + "\n3. Comparar los gastos actuales con los pasados."
                 + "\n4. Comparar los ahorros actuaes con los pasados"
                 + "\n5. Agregar gasto."
                 + "\n6. Salir"); 
             switch(op){
             case 1:mostrar();break;
-            case 2: ;break;
+            case 2:pedirIntegrantes();break;
             case 3:compGastos();break;
             case 4:compAhorros();break;
-            case 5: ;break;
-            case 6:;break;
+            case 5:PedirGastos();break;
+            case 6:v.mostrarRes("Hasta luego.");break;
             default:;break;
         }
         }while(op!=6);}
