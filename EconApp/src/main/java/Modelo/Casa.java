@@ -218,19 +218,19 @@ public class Casa {
         int op;
         do{
             op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
-                + "\n1. Mostrar onformacion."
-                + "\n2. Agregar Integrantes."
-                + "\n3. Comparar los gastos actuales con los pasados."
-                + "\n4. Comparar los ahorros actuaes con los pasados"
-                + "\n5. Agregar gasto."
-                + "\n6. Salir"); 
+                + "\n1. Mostrar informacion."
+                + "\n2. Agregar integrantes."
+                + "\n3. Agregar gasto."
+                + "\n4. Comparar los gastos actuales con los pasados."
+                + "\n5. Comparar los ahorros actuaes con los pasados."
+                + "\n6. Salir."); 
             switch(op){
             case 1:mostrar();break;
             case 2:pedirIntegrantes();break;
-            case 3:compGastos();break;
-            case 4:compAhorros();break;
-            case 5:PedirGastos();break;
-            case 6:v.mostrarRes("Hasta luego.");break;
+            case 3:PedirGastos();break;
+            case 4:compGastos();break;
+            case 5:compAhorros();break;
+            case 6:v.mostrarRes("Hasta luego.");System.exit(0);break;
             default:;break;
         }
         }while(op!=6);}
