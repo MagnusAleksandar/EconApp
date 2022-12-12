@@ -226,11 +226,11 @@ public class Casa {
                 + "\n6. Salir"); 
             switch(op){
             case 1:mostrar();break;
-            case 2: ;break;
+            case 2:pedirIntegrantes();break;
             case 3:compGastos();break;
             case 4:compAhorros();break;
-            case 5: ;break;
-            case 6:;break;
+            case 5:PedirGastos();break;
+            case 6:v.mostrarRes("Hasta luego.");break;
             default:;break;
         }
         }while(op!=6);}
