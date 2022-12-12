@@ -100,6 +100,19 @@ public class Casa {
         return ToGastos;
     }
     
+    public void mostrar(){
+        mostrarLInt();
+        mostrarLCont();
+        mostrarLGast();
+    }
+    
+    public double sumarA(){
+        for(Contribuyentes c: cont){
+            ToAporte+=c.getContribucion();
+        }
+        return ToAporte;
+    }
+    
     public void escribirArchivo(double valor, File arch){
         try{
             FileWriter l=new FileWriter(arch);
@@ -206,7 +219,7 @@ public class Casa {
         do{
             op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
                 + "\n1. Mostrar onformacion."
-                + "\n2. Agregar aportantantes."
+                + "\n2. Agregar Integrantes."
                 + "\n3. Comparar los gastos actuales con los pasados."
                 + "\n4. Comparar los ahorros actuaes con los pasados"
                 + "\n5. Agregar gasto."
