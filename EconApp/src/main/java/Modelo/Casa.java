@@ -225,7 +225,10 @@ public class Casa {
                 case 6:PedirGastos();break;
                 case 7:v.mostrarRes("Hasta luego.");break;
                 default:v.mostrarRes("Opcion no valida");break;
+                }
+            }while(op!=7);
             }
-            }while(op!=7);}
         }
     }
+
+
