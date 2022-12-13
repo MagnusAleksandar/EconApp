@@ -199,7 +199,8 @@ public class Casa {
         }
 
     public void menu() throws IOException{
-        int op=0;
+        int op;
+
         if(personas==null||leerArchivo(gastos)==null){pedirIntegrantes(1); PedirGastos();}
         else{
             do{
@@ -222,8 +223,8 @@ public class Casa {
                 case 4:compAhorros();break;
                 case 5:calcularAhorro();break;
                 case 6:PedirGastos();break;
-                case 7:;break;
-                default:;break;
+                case 7:v.mostrarRes("Hasta luego.");break;
+                default:v.mostrarRes("Opcion no valida");break;
             }
             }while(op!=7);}
         }
