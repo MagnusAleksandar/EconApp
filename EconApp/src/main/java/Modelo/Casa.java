@@ -1,5 +1,6 @@
 package Modelo;
 import Vista.InOut;
+import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,13 +10,17 @@ import java.util.ArrayList;
 
 public class Casa {
     static InOut v=new InOut();
-    double ahorro;
+    double ahorro,gt;
+    Contribuyentes co[];
+    Gasto g[];
+    Persona p[];
     double ToAporte,ToGastos;
     private ArrayList<Persona> personas;
     private ArrayList<Contribuyentes> cont;
     private ArrayList<Gasto> gast;
+ 
     public File gastos, ahorros;
-
+ 
     public void pedirIntegrantes(int ban){
         int in, a, prc;
         String nom;
@@ -47,37 +52,33 @@ public class Casa {
         }while(in<=20&&in>1);
     }
     
-    public void aportante(int a){
-        
-    }
-
     public void PedirGastos(){
        String des;
        double gas;
        boolean b;
        int i=0, a;
-
+       
        do{
             des=v.solicitarString("Ingrese descripcion del gasto:");
             gas=v.solicitarDouble("Ingrese valor del gasto:");
             gast.add(new Gasto(gas, des));
-            ToGastos+=gas;
+            
             a=v.solicitarEntero("¿Desea agregar otro gasto? (1: si/0: no)");
        }while(a==1);
     }
 
+    
 
-
-    void mostrarLInt(){
+    public void mostrarLInt(){
         String m="";
         for(Persona per:personas){
             if(!per.getContribuye())
                 m+="Nombre: "+per.getNombre()+".";
-
+            
         }
         v.mostrarRes(m);
     }
-    void mostrarLCont(){
+    public void mostrarLCont(){
         String m="";
         for(Contribuyentes con:cont){
             if(con.getContribuye())
@@ -85,8 +86,8 @@ public class Casa {
         }
         v.mostrarRes(m);
     }
-
-    void mostrarLGast(){
+ 
+    public void mostrarLGast(){
         String m="";
         for(Gasto gst:gast){
             m+=gst.getDescrip()+" $"+gst.getCosto();
@@ -99,7 +100,8 @@ public class Casa {
             if(c==1) gastos=new File("../gastos.txt");
                 else ahorros=new File("../ahorros.txt");
         }catch(Exception e){
-            e.printStackTrace();
+  
+          e.printStackTrace();
         }
     }
     
@@ -197,31 +199,36 @@ public class Casa {
         }
 
     public void menu() throws IOException{
-        pedirIntegrantes(1);
-        PedirGastos();
         int op;
-        do{
-            op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
-                + "\n1. Mostrar onformacion."
-                + "\n2. Agregar aportantantes."
-                + "\n3. Comparar los gastos actuales con los pasados."
-                + "\n4. Comparar los ahorros actuaes con los pasados"
-                + "\n5. Ahorrar dinero."
-                + "\n6. Agregar gasto"
-                + "\n7. Salir"); 
-            switch(op){
-            case 1:
-                mostrarLInt();
-                mostrarLCont();
-                mostrarLGast();break;
-            case 2://0 para ingresar aportante
-                pedirIntegrantes(0) ;break;
-            case 3:compGastos();break;
-            case 4:compAhorros();break;
-            case 5:calcularAhorro();break;
-            case 6:PedirGastos();break;
-            case 7:;break;
-            default:;break;
+
+        if(personas==null||leerArchivo(gastos)==null){pedirIntegrantes(1); PedirGastos();}
+        else{
+            do{
+                op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
+                    + "\n1. Mostrar onformacion."
+                    + "\n2. Agregar aportantantes."
+                    + "\n3. Comparar los gastos actuales con los pasados."
+                    + "\n4. Comparar los ahorros actuaes con los pasados"
+                    + "\n5. Ahorrar dinero."
+                    + "\n6. Agregar gasto"
+                    + "\n7. Salir"); 
+                switch(op){
+                case 1:
+                    mostrarLInt();
+                    mostrarLCont();
+                    mostrarLGast();break;
+                case 2://0 para ingresar aportante
+                    pedirIntegrantes(0) ;break;
+                case 3:compGastos();break;
+                case 4:compAhorros();break;
+                case 5:calcularAhorro();break;
+                case 6:PedirGastos();break;
+                case 7:v.mostrarRes("Hasta luego.");break;
+                default:v.mostrarRes("Opcion no valida");break;
+                }
+            }while(op!=7);
+            }
         }
-        }while(op!=7);}
     }
+
+
