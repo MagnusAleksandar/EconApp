@@ -198,10 +198,9 @@ public class Casa {
         }
         }
 
-    public void menu() throws IOException{
+    public void menu(int op) throws IOException{
         if(personas==null||leerArchivo(gastos)==null){pedirIntegrantes(1); PedirGastos();}
         else{
-            int op;
             do{
                 op=v.solicitarEntero("Bienvenido\n ¿Cual de las siguientes acciones desea realizar?"
                     + "\n1. Mostrar onformacion."
