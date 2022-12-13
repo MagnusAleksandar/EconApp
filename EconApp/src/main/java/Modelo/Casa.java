@@ -198,7 +198,8 @@ public class Casa {
         }
         }
 
-    public void menu(int op) throws IOException{
+    public void menu() throws IOException{
+        int op=0;
         if(personas==null||leerArchivo(gastos)==null){pedirIntegrantes(1); PedirGastos();}
         else{
             do{
