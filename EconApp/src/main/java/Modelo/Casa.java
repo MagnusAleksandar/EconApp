@@ -200,6 +200,7 @@ public class Casa {
 
     public void menu() throws IOException{
         int op;
+
         if(personas==null||leerArchivo(gastos)==null){pedirIntegrantes(1); PedirGastos();}
         else{
             do{

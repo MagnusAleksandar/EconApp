@@ -9,7 +9,6 @@ public class Ejecutar {
     
     public static void main(String[] args) throws IOException {
         ob1.menu();
-    
     }
     
 }
